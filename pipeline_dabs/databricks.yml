@@ -1,0 +1,41 @@
+# This is a Declarative Automation Bundle definition for pipeline_dabs.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: pipeline_dabs
+  uuid: e664de29-bfff-450c-8b80-cf18bab33dd6
+
+include:
+  - resources/*.yml
+
+# Variable declarations. These variables are assigned in the dev/prod targets below.
+variables:
+  catalog:
+    description: The catalog to use
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-29a8b312-0a8d.cloud.databricks.com
+    variables:
+      catalog: dev
+
+  uat:
+    mode: development
+    workspace:
+      host: https://dbc-29a8b312-0a8d.cloud.databricks.com
+    variables:
+      catalog: uat
+
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-29a8b312-0a8d.cloud.databricks.com
+      # We explicitly deploy to /Workspace/Users/seojinkang987@gmail.com to make sure we only have a single copy.
+      root_path: /Workspace/Users/seojinkang987@gmail.com/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: prod
+    permissions:
+      - user_name: seojinkang987@gmail.com
+        level: CAN_MANAGE

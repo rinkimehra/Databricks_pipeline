@@ -1,0 +1,18 @@
+resources:
+  pipelines:
+    pipeline_dabs_etl:
+      name: dabs_pipeline_${bundle.target}
+      
+      configuration:
+        catalog: ${var.catalog}
+      libraries:
+        - glob:
+            include: /Workspace/Users/seojinkang987@gmail.com/First_pipeline/transformations/**
+      continuous: false
+      development: false
+      photon: true
+      channel: CURRENT
+      catalog: ${var.catalog}
+      schema: ${var.catalog}
+      serverless: true
+      root_path: /Workspace/Users/seojinkang987@gmail.com/First_pipeline
